@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Vôlei - Tênis Esportivos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header e navegação */
+        .header {
+            background-color: #1e3a8a; /* azul volei */
+            color: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            letter-spacing: 2px;
+            text-shadow: 3px 3px 0 #0f2b5e;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #fbbf24;
+        }
+
+        .search-area {
+            flex: 1;
+            max-width: 600px;
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: 40px;
+            overflow: hidden;
+            border: 2px solid #fbbf24;
+        }
+
+        .search-area input {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .search-area button {
+            background-color: #fbbf24;
+            border: none;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #1e3a8a;
+            transition: 0.3s;
+            font-size: 1rem;
+        }
+
+        .search-area button:hover {
+            background-color: #f59e0b;
+        }
+
+        .cart-icon {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #0f2b5e;
+            padding: 10px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 2px solid #fbbf24;
+        }
+
+        .cart-icon:hover {
+            background-color: #fbbf24;
+            color: #0f2b5e;
+        }
+
+        .cart-icon i {
+            font-size: 1.5rem;
+        }
+
+        /* Conteúdo principal */
+        .main-content {
+            flex: 1;
+            padding: 40px 30px;
+            max-width: 1300px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 40px 0 30px;
+            font-size: 2rem;
+            color: #1e3a8a;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: "";
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #fbbf24, #1e3a8a);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        .product-row {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+        }
+
+        /* Efeito diagonal nos cards */
+        .product-card {
+            background-color: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: 0.4s;
+            width: 280px;
+            transform: rotate(0deg);
+            border: 1px solid #ddd;
+            position: relative;
+        }
+
+        /* Fileira diagonal: rotação sutil */
+        .product-row .product-card:nth-child(1) {
+            transform: rotate(-2deg) translateY(5px);
+        }
+        .product-row .product-card:nth-child(2) {
+            transform: rotate(1deg) translateY(-8px);
+        }
+        .product-row .product-card:nth-child(3) {
+            transform: rotate(3deg) translateY(3px);
+        }
+
+        .product-card:hover {
+            transform: rotate(0deg) scale(1.05);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+
+        .product-img {
+            height: 200px;
+            background: linear-gradient(145deg, #e0e7ff, #c7d2fe);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .product-img img {
+            max-width: 100%;
+            max-height: 160px;
+            object-fit: contain;
+            filter: drop-shadow(5px 5px 5px rgba(0,0,0,0.3));
+        }
+
+        .product-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .product-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1e3a8a;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fbbf24;
+            text-shadow: 1px 1px 0 #1e3a8a;
+            margin-bottom: 15px;
+        }
+
+        .btn-buy {
+            background-color: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .btn-buy:hover {
+            background-color: #fbbf24;
+            color: #1e3a8a;
+        }
+
+        /* Rodapé */
+        .footer {
+            background-color: #0f2b5e;
+            color: white;
+            padding: 30px 20px 15px;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .social-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .social-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.2rem;
+        }
+
+        .social-item a {
+            color: #fbbf24;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .social-item a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .phone {
+            font-size: 1.3rem;
+            background: #1e3a8a;
+            padding: 8px 20px;
+            border-radius: 40px;
+            border: 2px solid #fbbf24;
+        }
+
+        .credits {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #2563eb;
+            font-style: italic;
+            color: #ccc;
+        }
+
+        .credits strong {
+            color: #fbbf24;
+            font-size: 1.1rem;
+        }
+
+        /* ícone de carrinho usando caracteres */
+        .cart-symbol {
+            font-size: 1.8rem;
+            line-height: 1;
+        }
+
+        /* responsividade */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .search-area {
+                max-width: 100%;
+            }
+            .cart-icon {
+                justify-content: center;
+            }
+            .product-row .product-card {
+                transform: rotate(0deg) !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>WORLD <span>VÔLEI</span></h1>
+            </div>
+            
+            <div class="search-area">
+                <input type="text" placeholder="Buscar tênis... (experimental)">
+                <button type="submit">🔍 Buscar</button>
+            </div>
+
+            <div class="cart-icon">
+                <span class="cart-symbol">🛒</span>
+                <span>Carrinho (0)</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <h2 class="section-title">LANÇAMENTOS EM DIAGONAL</h2>
+        
+        <!-- Primeira fileira diagonal de 3 tênis -->
+        <div class="product-row">
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 80'%3E%3Crect width='100' height='80' fill='%233b82f6'/%3E%3Cpath d='M20 50 L80 50 L70 70 L30 70 Z' fill='%23fbbf24'/%3E%3Ccircle cx='35' cy='45' r='8' fill='%23ffffff'/%3E%3Ccircle cx='65' cy='45' r='8' fill='%23ffffff'/%3E%3Ctext x='22' y='30' fill='white' font-size='14' font-weight='bold'%3EVOLEI%3C/text%3E%3C/svg%3E" alt="Tênis de Vôlei Asics">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">Asics Sky Elite</div>
+                    <div class="product-price">R$ 699,90</div>
+                    <button class="btn-buy">COMPRAR</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 80'%3E%3Crect width='100' height='80' fill='%23dc2626'/%3E%3Cpath d='M20 50 L80 50 L70 70 L30 70 Z' fill='%23fbbf24'/%3E%3Ccircle cx='35' cy='45' r='8' fill='%23ffffff'/%3E%3Ccircle cx='65' cy='45' r='8' fill='%23ffffff'/%3E%3Ctext x='22' y='30' fill='white' font-size='14' font-weight='bold'%3EMIZUNO%3C/text%3E%3C/svg%3E" alt="Tênis Mizuno">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">Mizuno Wave</div>
+                    <div class="product-price">R$ 549,90</div>
+                    <button class="btn-buy">COMPRAR</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 80'%3E%3Crect width='100' height='80' fill='%2316a34a'/%3E%3Cpath d='M20 50 L80 50 L70 70 L30 70 Z' fill='%23fbbf24'/%3E%3Ccircle cx='35' cy='45' r='8' fill='%23ffffff'/%3E%3Ccircle cx='65' cy='45' r='8' fill='%23ffffff'/%3E%3Ctext x='22' y='30' fill='white' font-size='14' font-weight='bold'%3EOLYMPIKUS%3C/text%3E%3C/svg%3E" alt="Tênis Olympikus">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">Olympikus Elite</div>
+                    <div class="product-price">R$ 399,90</div>
+                    <button class="btn-buy">COMPRAR</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Segunda fileira diagonal de 3 tênis -->
+        <div class="product-row">
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 80'%3E%3Crect width='100' height='80' fill='%239256dc'/%3E%3Cpath d='M20 50 L80 50 L70 70 L30 70 Z' fill='%23fbbf24'/%3E%3Ccircle cx='35' cy='45' r='8' fill='%23ffffff'/%3E%3Ccircle cx='65' cy='45' r='8' fill='%23ffffff'/%3E%3Ctext x='15' y='30' fill='white' font-size='12' font-weight='bold'%3EADIDAS%3C/text%3E%3C/svg%3E" alt="Tênis Adidas">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">Adidas Crazyflight</div>
+                    <div class="product-price">R$ 629,90</div>
+                    <button class="btn-buy">COMPRAR</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 80'%3E%3Crect width='100' height='80' fill='%23e07b39'/%3E%3Cpath d='M20 50 L80 50 L70 70 L30 70 Z' fill='%23fbbf24'/%3E%3Ccircle cx='35' cy='45' r='8' fill='%23ffffff'/%3E%3Ccircle cx='65' cy='45' r='8' fill='%23ffffff'/%3E%3Ctext x='20' y='30' fill='white' font-size='12' font-weight='bold'%3EPENALTY%3C/text%3E%3C/svg%3E" alt="Tênis Penalty">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">Penalty Pro</div>
+                    <div class="product-price">R$ 329,90</div>
+                    <button class="btn-buy">COMPRAR</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 80'%3E%3Crect width='100' height='80' fill='%230066cc'/%3E%3Cpath d='M20 50 L80 50 L70 70 L30 70 Z' fill='%23fbbf24'/%3E%3Ccircle cx='35' cy='45' r='8' fill='%23ffffff'/%3E%3Ccircle cx='65' cy='45' r='8' fill='%23ffffff'/%3E%3Ctext x='22' y='30' fill='white' font-size='12' font-weight='bold'%3ENIKE%3C/text%3E%3C/svg%3E" alt="Tênis Nike">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">Nike Hyperace</div>
+                    <div class="product-price">R$ 579,90</div>
+                    <button class="btn-buy">COMPRAR</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="social-section">
+                <div class="social-item">
+                    <span>📷</span>
+                    <a href="https://instagram.com/pedrinz.rx7" target="_blank">@pedrinz.rx7</a>
+                </div>
+                <div class="social-item phone">
+                    <span>📞</span>
+                    <span>17 99119-8056</span>
+                </div>
+            </div>
+            <div class="credits">
+                <p>© 2025 World Vôlei - Todos os direitos reservados</p>
+                <p>Créditos do site: <strong>Pedro Lucas de Brito Bitencourt</strong></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Pequeno script para dar feedback no carrinho (opcional) -->
+    <script>
+        // só para simular interação com o carrinho
+        document.querySelectorAll('.btn-buy').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const cartSpan = document.querySelector('.cart-icon span:last-child');
+                let text = cartSpan.textContent;
+                let match = text.match(/\d+/);
+                if (match) {
+                    let qty = parseInt(match[0]) + 1;
+                    cartSpan.textContent = `Carrinho (${qty})`;
+                }
+            });
+        });
+
+        // busca (placeholder)
+        document.querySelector('.search-area button').addEventListener('click', () => {
+            alert('Função de busca em desenvolvimento. Escolha um tênis!');
+        });
+    </script>
+</body>
+</html>
