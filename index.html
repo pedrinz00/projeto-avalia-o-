@@ -21,10 +21,13 @@
 
         /* Header e navegação */
         .header {
-            background-color: #1e3a8a; /* azul volei */
+            background-color: #1e3a8a;
             color: white;
             padding: 15px 30px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .nav-container {
@@ -44,6 +47,11 @@
 
         .logo span {
             color: #fbbf24;
+        }
+
+        .logo a {
+            text-decoration: none;
+            color: white;
         }
 
         .search-area {
@@ -213,11 +221,20 @@
             transition: 0.3s;
             width: 100%;
             font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
         }
 
         .btn-buy:hover {
             background-color: #fbbf24;
             color: #1e3a8a;
+        }
+
+        /* Link do produto */
+        .product-link {
+            text-decoration: none;
+            display: block;
         }
 
         /* Rodapé */
@@ -291,6 +308,33 @@
             line-height: 1;
         }
 
+        /* Toast de notificação */
+        .toast-notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #1e3a8a;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+            border-left: 4px solid #fbbf24;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
         /* responsividade */
         @media (max-width: 768px) {
             .nav-container {
@@ -306,6 +350,12 @@
             .product-row .product-card {
                 transform: rotate(0deg) !important;
             }
+            .toast-notification {
+                bottom: 20px;
+                right: 20px;
+                left: 20px;
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -313,92 +363,118 @@
     <header class="header">
         <div class="nav-container">
             <div class="logo">
-                <h1>WORLD <span>VÔLEI</span></h1>
+                <a href="#">
+                    <h1>WORLD <span>VÔLEI</span></h1>
+                </a>
             </div>
             
             <div class="search-area">
-                <input type="text" placeholder="Buscar tênis... (experimental)">
-                <button type="submit">🔍 Buscar</button>
+                <input type="text" id="searchInput" placeholder="Buscar tênis... (ex: Asics, Nike)">
+                <button id="searchBtn">🔍 Buscar</button>
             </div>
 
-            <div class="cart-icon">
+            <div class="cart-icon" id="cartIcon">
                 <span class="cart-symbol">🛒</span>
-                <span>Carrinho (0)</span>
+                <span id="cartCount">Carrinho (0)</span>
             </div>
         </div>
     </header>
 
     <main class="main-content">
-        <h2 class="section-title"></h2>
+        <h2 class="section-title">⚡ TÊNIS PREMIUM ⚡</h2>
         
         <!-- Primeira fileira diagonal de 3 tênis -->
         <div class="product-row">
-            <div class="product-card">
-                <div class="product-img">
-                    <img src="https://imgcentauro-a.akamaihd.net/1200x1200/M0GES306A6.jpg" alt="Tênis de Vôlei Asics">
-                </div>
-                <div class="product-info">
-                    <div class="product-name">Asics Sky Elite</div>
-                    <div class="product-price">R$ 949,99</div>
-                    <button class="btn-buy">COMPRAR</button>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-img">
-                    <img src="https://crepdogcrew.com/cdn/shop/files/1_cadd2126-9cdb-4352-8f0c-cf082957b3fd.png?v=1755093735&width=800" alt="Tênis Mizuno">
-                </div>
-                <div class="product-info">
-                    <div class="product-name">Nike Ja 3 Light Show</div>
-                    <div class="product-price">R$ 999,99</div>
-                    <button class="btn-buy">COMPRAR</button>
+            <div class="product-card" data-name="Asics Sky Elite" data-price="949.99">
+                <a href="https://www.asics.com/br/pt-br/sky-elite-ff-mt/p/1071A099-400.html" target="_blank" class="product-link">
+                    <div class="product-img">
+                        <img src="https://imgcentauro-a.akamaihd.net/1200x1200/M0GES306A6.jpg" alt="Tênis de Vôlei Asics Sky Elite">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Asics Sky Elite FF MT</div>
+                        <div class="product-price">R$ 949,99</div>
+                    </div>
+                </a>
+                <div class="product-info" style="padding-top: 0;">
+                    <button class="btn-buy" data-product="Asics Sky Elite" data-price="949.99">COMPRAR</button>
                 </div>
             </div>
 
-            <div class="product-card">
-                <div class="product-img">
-                    <img src="https://static.allianzparqueshop.com.br/produtos/tenis-olympikus-quadra-br1-masculino/18/2I3-0275-218/2I3-0275-218_zoom6.jpg?ts=1771943436&ims=544x" alt="Tênis Olympikus">
+            <div class="product-card" data-name="Nike Ja 3 Light Show" data-price="999.99">
+                <a href="https://www.nike.com.br/tenis-nike-ja-3-light-show-103587.html" target="_blank" class="product-link">
+                    <div class="product-img">
+                        <img src="https://crepdogcrew.com/cdn/shop/files/1_cadd2126-9cdb-4352-8f0c-cf082957b3fd.png?v=1755093735&width=800" alt="Tênis Nike Ja 3 Light Show">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Nike Ja 3 Light Show</div>
+                        <div class="product-price">R$ 999,99</div>
+                    </div>
+                </a>
+                <div class="product-info" style="padding-top: 0;">
+                    <button class="btn-buy" data-product="Nike Ja 3 Light Show" data-price="999.99">COMPRAR</button>
                 </div>
-                <div class="product-info">
-                    <div class="product-name">Quadra BR1 Olympikus </div>
-                    <div class="product-price">R$ 399,90</div>
-                    <button class="btn-buy">COMPRAR</button>
+            </div>
+
+            <div class="product-card" data-name="Olympikus Quadra BR1" data-price="399.90">
+                <a href="https://www.olympikus.com.br/tenis-quadra-br1-masculino/p" target="_blank" class="product-link">
+                    <div class="product-img">
+                        <img src="https://static.allianzparqueshop.com.br/produtos/tenis-olympikus-quadra-br1-masculino/18/2I3-0275-218/2I3-0275-218_zoom6.jpg?ts=1771943436&ims=544x" alt="Tênis Olympikus Quadra BR1">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Olympikus Quadra BR1</div>
+                        <div class="product-price">R$ 399,90</div>
+                    </div>
+                </a>
+                <div class="product-info" style="padding-top: 0;">
+                    <button class="btn-buy" data-product="Olympikus Quadra BR1" data-price="399.90">COMPRAR</button>
                 </div>
             </div>
         </div>
 
         <!-- Segunda fileira diagonal de 3 tênis -->
         <div class="product-row">
-            <div class="product-card">
-                <div class="product-img">
-                    <img src="https://m.media-amazon.com/images/I/31229npTK4L._AC_SY300_.jpg" alt="Tênis Adidas">
-                </div>
-                <div class="product-info">
-                    <div class="product-name">Nike React HyperSet</div>
-                    <div class="product-price">R$ 1350,49</div>
-                    <button class="btn-buy">COMPRAR</button>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-img">
-                    <img src="https://m.media-amazon.com/images/I/71xnzp8hgBL._AC_SX575_.jpg" alt="Tênis Penalty">
-                </div>
-                <div class="product-info">
-                    <div class="product-name">Nike KD17</div>
-                    <div class="product-price">R$ 800,49</div>
-                    <button class="btn-buy">COMPRAR</button>
+            <div class="product-card" data-name="Nike React HyperSet" data-price="1350.49">
+                <a href="https://www.nike.com.br/tenis-nike-react-hyperset-103588.html" target="_blank" class="product-link">
+                    <div class="product-img">
+                        <img src="https://m.media-amazon.com/images/I/31229npTK4L._AC_SY300_.jpg" alt="Tênis Nike React HyperSet">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Nike React HyperSet</div>
+                        <div class="product-price">R$ 1.350,49</div>
+                    </div>
+                </a>
+                <div class="product-info" style="padding-top: 0;">
+                    <button class="btn-buy" data-product="Nike React HyperSet" data-price="1350.49">COMPRAR</button>
                 </div>
             </div>
 
-            <div class="product-card">
-                <div class="product-img">
-                    <img src="https://m.media-amazon.com/images/I/51EfuFQSVDS._AC_SL1080_.jpg" alt="Tênis Nike">
+            <div class="product-card" data-name="Nike KD17" data-price="800.49">
+                <a href="https://www.nike.com.br/tenis-nike-kd-17-103589.html" target="_blank" class="product-link">
+                    <div class="product-img">
+                        <img src="https://m.media-amazon.com/images/I/71xnzp8hgBL._AC_SX575_.jpg" alt="Tênis Nike KD17">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Nike KD17</div>
+                        <div class="product-price">R$ 800,49</div>
+                    </div>
+                </a>
+                <div class="product-info" style="padding-top: 0;">
+                    <button class="btn-buy" data-product="Nike KD17" data-price="800.49">COMPRAR</button>
                 </div>
-                <div class="product-info">
-                    <div class="product-name">Nike Hyperace</div>
-                    <div class="product-price">R$ 1250,49</div>
-                    <button class="btn-buy">COMPRAR</button>
+            </div>
+
+            <div class="product-card" data-name="Nike Hyperace" data-price="1250.49">
+                <a href="https://www.nike.com.br/tenis-nike-hyperace-103590.html" target="_blank" class="product-link">
+                    <div class="product-img">
+                        <img src="https://m.media-amazon.com/images/I/51EfuFQSVDS._AC_SL1080_.jpg" alt="Tênis Nike Hyperace">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Nike Hyperace</div>
+                        <div class="product-price">R$ 1.250,49</div>
+                    </div>
+                </a>
+                <div class="product-info" style="padding-top: 0;">
+                    <button class="btn-buy" data-product="Nike Hyperace" data-price="1250.49">COMPRAR</button>
                 </div>
             </div>
         </div>
@@ -411,6 +487,10 @@
                     <span>📷</span>
                     <a href="https://instagram.com/pedrinz.rx7" target="_blank">@pedrinz.rx7</a>
                 </div>
+                <div class="social-item">
+                    <span>📧</span>
+                    <a href="mailto:contato@worldvolei.com.br">contato@worldvolei.com.br</a>
+                </div>
                 <div class="social-item phone">
                     <span>📞</span>
                     <span>17 99119-8056</span>
@@ -419,30 +499,152 @@
             <div class="credits">
                 <p>© 2025 World Vôlei - Todos os direitos reservados</p>
                 <p>Créditos do site: <strong>Pedro Lucas de Brito Bitencourt</strong></p>
+                <p style="font-size: 0.8rem; margin-top: 8px;">🔗 Clique na imagem ou nome do produto para acessar a loja oficial</p>
             </div>
         </div>
     </footer>
 
-    <!-- Pequeno script para dar feedback no carrinho (opcional) -->
     <script>
-        // só para simular interação com o carrinho
+        // Carrinho e notificações
+        let cartItems = [];
+        let cartCount = 0;
+
+        const cartCountElement = document.getElementById('cartCount');
+        const cartIcon = document.getElementById('cartIcon');
+
+        // Função para mostrar notificação
+        function showNotification(message, isError = false) {
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.style.backgroundColor = isError ? '#dc2626' : '#1e3a8a';
+            toast.innerHTML = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Função para adicionar ao carrinho
+        function addToCart(productName, productPrice) {
+            cartItems.push({
+                name: productName,
+                price: productPrice,
+                date: new Date().toLocaleString()
+            });
+            cartCount++;
+            cartCountElement.textContent = `Carrinho (${cartCount})`;
+            
+            // Salvar no localStorage
+            localStorage.setItem('worldVoleiCart', JSON.stringify(cartItems));
+            localStorage.setItem('worldVoleiCartCount', cartCount);
+            
+            showNotification(`✅ ${productName} adicionado ao carrinho! Total: ${cartCount} item(ns)`);
+            
+            // Animação no carrinho
+            cartIcon.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                cartIcon.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        // Carregar carrinho salvo
+        function loadCart() {
+            const savedCart = localStorage.getItem('worldVoleiCart');
+            const savedCount = localStorage.getItem('worldVoleiCartCount');
+            
+            if (savedCart) {
+                cartItems = JSON.parse(savedCart);
+                cartCount = parseInt(savedCount) || cartItems.length;
+                cartCountElement.textContent = `Carrinho (${cartCount})`;
+            }
+        }
+
+        // Adicionar eventos aos botões de compra
         document.querySelectorAll('.btn-buy').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const cartSpan = document.querySelector('.cart-icon span:last-child');
-                let text = cartSpan.textContent;
-                let match = text.match(/\d+/);
-                if (match) {
-                    let qty = parseInt(match[0]) + 1;
-                    cartSpan.textContent = `Carrinho (${qty})`;
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const productName = btn.getAttribute('data-product');
+                const productPrice = btn.getAttribute('data-price');
+                
+                if (productName && productPrice) {
+                    addToCart(productName, productPrice);
+                } else {
+                    showNotification('❌ Erro ao adicionar produto', true);
                 }
             });
         });
 
-        // busca (placeholder)
-        document.querySelector('.search-area button').addEventListener('click', () => {
-            alert('Função de busca em desenvolvimento. Escolha um tênis!');
+        // Função de busca
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            const productCards = document.querySelectorAll('.product-card');
+            let found = false;
+            
+            productCards.forEach(card => {
+                const productName = card.getAttribute('data-name') || '';
+                if (productName.toLowerCase().includes(searchTerm) || searchTerm === '') {
+                    card.style.display = 'block';
+                    found = true;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            if (searchTerm !== '') {
+                if (found) {
+                    showNotification(`🔍 Encontramos produtos para "${searchTerm}"`);
+                } else {
+                    showNotification(`❌ Nenhum produto encontrado para "${searchTerm}"`, true);
+                }
+            }
+        }
+
+        // Evento de busca
+        document.getElementById('searchBtn').addEventListener('click', searchProducts);
+        document.getElementById('searchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchProducts();
+            }
         });
+
+        // Carrinho visualizar
+        cartIcon.addEventListener('click', () => {
+            if (cartItems.length === 0) {
+                showNotification('🛒 Seu carrinho está vazio! Adicione algum produto.', true);
+            } else {
+                let total = cartItems.reduce((sum, item) => sum + parseFloat(item.price), 0);
+                let productList = cartItems.map(item => `• ${item.name} - R$ ${parseFloat(item.price).toFixed(2)}`).join('\n');
+                alert(`🛒 SEU CARRINHO\n\n${productList}\n\n💰 Total: R$ ${total.toFixed(2)}\n📦 Itens: ${cartCount}\n\nClique nos botões "COMPRAR" para adicionar mais produtos!`);
+            }
+        });
+
+        // Efeito hover nos links dos produtos
+        document.querySelectorAll('.product-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const productCard = link.closest('.product-card');
+                const productName = productCard.getAttribute('data-name');
+                showNotification(`🔗 Redirecionando para a loja oficial: ${productName}`);
+            });
+        });
+
+        // Carregar carrinho ao iniciar
+        loadCart();
+        
+        // Animação de entrada
+        document.querySelectorAll('.product-card').forEach((card, index) => {
+            card.style.animation = `slideIn 0.5s ease ${index * 0.1}s forwards`;
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = '';
+            }, index * 100);
+        });
+        
+        console.log('🏐 World Vôlei - Loja de Tênis Esportivos');
+        console.log('👟 Todos os produtos possuem link direto para a loja oficial!');
     </script>
 </body>
 </html>
-
