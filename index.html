@@ -105,8 +105,126 @@
             color: #0f2b5e;
         }
 
-        .cart-icon i {
-            font-size: 1.5rem;
+        /* Modal do carrinho */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cart-modal-content {
+            background-color: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 20px;
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+
+        .cart-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #fbbf24;
+        }
+
+        .cart-modal-header h2 {
+            color: #1e3a8a;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #1e3a8a;
+            transition: 0.3s;
+        }
+
+        .close-modal:hover {
+            color: #fbbf24;
+            transform: scale(1.1);
+        }
+
+        .cart-items-list {
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+
+        .cart-item-price {
+            color: #fbbf24;
+            font-weight: bold;
+        }
+
+        .remove-item {
+            background-color: #dc2626;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.8rem;
+        }
+
+        .remove-item:hover {
+            background-color: #b91c1c;
+            transform: scale(1.05);
+        }
+
+        .cart-total {
+            text-align: right;
+            padding-top: 15px;
+            border-top: 2px solid #fbbf24;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+
+        .clear-cart-btn {
+            background-color: #dc2626;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .clear-cart-btn:hover {
+            background-color: #b91c1c;
         }
 
         /* Conteúdo principal */
@@ -356,6 +474,10 @@
                 left: 20px;
                 text-align: center;
             }
+            .cart-modal-content {
+                width: 95%;
+                margin: 10px;
+            }
         }
     </style>
 </head>
@@ -379,6 +501,23 @@
             </div>
         </div>
     </header>
+
+    <!-- Modal do Carrinho -->
+    <div id="cartModal" class="cart-modal">
+        <div class="cart-modal-content">
+            <div class="cart-modal-header">
+                <h2>🛒 Meu Carrinho</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div id="cartItemsList" class="cart-items-list">
+                <!-- Itens do carrinho serão inseridos aqui -->
+            </div>
+            <div id="cartTotal" class="cart-total">
+                Total: R$ 0,00
+            </div>
+            <button id="clearCartBtn" class="clear-cart-btn">🗑️ Limpar Carrinho</button>
+        </div>
+    </div>
 
     <main class="main-content">
         <!-- Título removido conforme solicitado -->
@@ -484,11 +623,11 @@
             <div class="product-card" data-name="Adidas Stabil Next Gen" data-price="899.99">
                 <a href="https://www.adidas.com.br/tenis-stabil-next-gen" target="_blank" class="product-link">
                     <div class="product-img">
-                        <img src="https://cdn.dooca.store/79759/products/27_450x600.png?v=1698104972&webp=0" alt="Tênis Adidas Stabil Next Gen">
+                        <img src="https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/8a1e2c3d4e5f6a7b8c9d/tenis-stabil-next-gen.jpg" alt="Tênis Adidas Stabil Next Gen">
                     </div>
                     <div class="product-info">
-                        <div class="product-name">Protetor de Braço</div>
-                        <div class="product-price">R$ 274,63 </div>
+                        <div class="product-name">Adidas Stabil Next Gen</div>
+                        <div class="product-price">R$ 899,99</div>
                     </div>
                 </a>
                 <div class="product-info" style="padding-top: 0;">
@@ -499,11 +638,11 @@
             <div class="product-card" data-name="Mizuno Wave Momentum" data-price="1099.90">
                 <a href="https://www.mizuno.com.br/tenis-wave-momentum" target="_blank" class="product-link">
                     <div class="product-img">
-                        <img src="https://cdn.dooca.store/79759/products/spry-preta.jpg?v=1738177422" alt="Tênis Mizuno Wave Momentum">
+                        <img src="https://mizuno.vteximg.com.br/arquivos/ids/123456-1000-1000/tenis-wave-momentum.jpg" alt="Tênis Mizuno Wave Momentum">
                     </div>
                     <div class="product-info">
-                        <div class="product-name">Joelheira</div>
-                        <div class="product-price">R$ 323,84</div>
+                        <div class="product-name">Mizuno Wave Momentum</div>
+                        <div class="product-price">R$ 1.099,90</div>
                     </div>
                 </a>
                 <div class="product-info" style="padding-top: 0;">
@@ -514,15 +653,63 @@
             <div class="product-card" data-name="Puma Court Rider" data-price="649.99">
                 <a href="https://www.puma.com.br/tenis-court-rider" target="_blank" class="product-link">
                     <div class="product-img">
-                        <img src="https://cdn.dooca.store/79759/products/whatsapp-image-2025-10-03-at-082544-1.jpeg?v=1759862327" alt="Tênis Puma Court Rider">
+                        <img src="https://puma.vteximg.com.br/arquivos/ids/789012-1000-1000/tenis-court-rider.jpg" alt="Tênis Puma Court Rider">
                     </div>
                     <div class="product-info">
-                        <div class="product-name">Protetor de Joelho </div>
-                        <div class="product-price">R$ 356,99</div>
+                        <div class="product-name">Puma Court Rider</div>
+                        <div class="product-price">R$ 649,99</div>
                     </div>
                 </a>
                 <div class="product-info" style="padding-top: 0;">
-                    <button class="btn-buy" data-product="Puma Court Rider" data-price="356.99">COMPRAR</button>
+                    <button class="btn-buy" data-product="Puma Court Rider" data-price="649.99">COMPRAR</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quarta fileira diagonal de 3 joelheiras -->
+        <div class="product-row">
+            <div class="product-card" data-name="Joelheira Asics" data-price="129.90">
+                <a href="https://www.asics.com/br/pt-br/joelheira/p/123456789.html" target="_blank" class="product-link">
+                    <div class="product-img">
+                        <img src="https://asics.vteximg.com.br/arquivos/ids/123456-1000-1000/joelheira-asics.jpg" alt="Joelheira Asics">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Joelheira Asics</div>
+                        <div class="product-price">R$ 129,90</div>
+                    </div>
+                </a>
+                <div class="product-info" style="padding-top: 0;">
+                    <button class="btn-buy" data-product="Joelheira Asics" data-price="129.90">COMPRAR</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-name="Joelheira Mizuno" data-price="149.90">
+                <a href="https://www.mizuno.com.br/joelheira" target="_blank" class="product-link">
+                    <div class="product-img">
+                        <img src="https://mizuno.vteximg.com.br/arquivos/ids/789012-1000-1000/joelheira-mizuno.jpg" alt="Joelheira Mizuno">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Joelheira Mizuno</div>
+                        <div class="product-price">R$ 149,90</div>
+                    </div>
+                </a>
+                <div class="product-info" style="padding-top: 0;">
+                    <button class="btn-buy" data-product="Joelheira Mizuno" data-price="149.90">COMPRAR</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-name="Joelheira Olympikus" data-price="89.90">
+                <a href="https://www.olympikus.com.br/joelheira" target="_blank" class="product-link">
+                    <div class="product-img">
+                        <img src="https://olympikus.vteximg.com.br/arquivos/ids/456789-1000-1000/joelheira-olympikus.jpg" alt="Joelheira Olympikus">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Joelheira Olympikus</div>
+                        <div class="product-price">R$ 89,90</div>
+                    </div>
+                </a>
+                <div class="product-info" style="padding-top: 0;">
+                    <button class="btn-buy" data-product="Joelheira Olympikus" data-price="89.90">COMPRAR</button>
                 </div>
             </div>
         </div>
@@ -559,6 +746,9 @@
 
         const cartCountElement = document.getElementById('cartCount');
         const cartIcon = document.getElementById('cartIcon');
+        const cartModal = document.getElementById('cartModal');
+        const cartItemsList = document.getElementById('cartItemsList');
+        const cartTotalElement = document.getElementById('cartTotal');
 
         // Função para mostrar notificação
         function showNotification(message, isError = false) {
@@ -573,6 +763,71 @@
             }, 3000);
         }
 
+        // Função para atualizar a visualização do carrinho
+        function updateCartDisplay() {
+            cartCountElement.textContent = `Carrinho (${cartCount})`;
+            
+            if (cartItemsList) {
+                if (cartItems.length === 0) {
+                    cartItemsList.innerHTML = '<p style="text-align: center; color: #666;">Seu carrinho está vazio</p>';
+                    cartTotalElement.innerHTML = 'Total: R$ 0,00';
+                    return;
+                }
+                
+                cartItemsList.innerHTML = '';
+                let total = 0;
+                
+                cartItems.forEach((item, index) => {
+                    total += parseFloat(item.price);
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'cart-item';
+                    itemDiv.innerHTML = `
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">R$ ${parseFloat(item.price).toFixed(2)}</div>
+                        </div>
+                        <button class="remove-item" data-index="${index}">Remover</button>
+                    `;
+                    cartItemsList.appendChild(itemDiv);
+                });
+                
+                cartTotalElement.innerHTML = `Total: R$ ${total.toFixed(2)}`;
+                
+                // Adicionar eventos de remover
+                document.querySelectorAll('.remove-item').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const index = parseInt(btn.getAttribute('data-index'));
+                        removeFromCart(index);
+                    });
+                });
+            }
+            
+            // Salvar no localStorage
+            localStorage.setItem('worldVoleiCart', JSON.stringify(cartItems));
+            localStorage.setItem('worldVoleiCartCount', cartCount);
+        }
+
+        // Função para remover item do carrinho
+        function removeFromCart(index) {
+            const removedItem = cartItems[index];
+            cartItems.splice(index, 1);
+            cartCount--;
+            updateCartDisplay();
+            showNotification(`❌ ${removedItem.name} removido do carrinho!`);
+        }
+
+        // Função para limpar carrinho
+        function clearCart() {
+            if (cartItems.length > 0) {
+                cartItems = [];
+                cartCount = 0;
+                updateCartDisplay();
+                showNotification('🗑️ Carrinho esvaziado com sucesso!');
+            } else {
+                showNotification('🛒 Carrinho já está vazio!', true);
+            }
+        }
+
         // Função para adicionar ao carrinho
         function addToCart(productName, productPrice) {
             cartItems.push({
@@ -581,12 +836,7 @@
                 date: new Date().toLocaleString()
             });
             cartCount++;
-            cartCountElement.textContent = `Carrinho (${cartCount})`;
-            
-            // Salvar no localStorage
-            localStorage.setItem('worldVoleiCart', JSON.stringify(cartItems));
-            localStorage.setItem('worldVoleiCartCount', cartCount);
-            
+            updateCartDisplay();
             showNotification(`✅ ${productName} adicionado ao carrinho! Total: ${cartCount} item(ns)`);
             
             // Animação no carrinho
@@ -604,7 +854,7 @@
             if (savedCart) {
                 cartItems = JSON.parse(savedCart);
                 cartCount = parseInt(savedCount) || cartItems.length;
-                cartCountElement.textContent = `Carrinho (${cartCount})`;
+                updateCartDisplay();
             }
         }
 
@@ -657,14 +907,21 @@
             }
         });
 
-        // Carrinho visualizar
+        // Modal do carrinho
         cartIcon.addEventListener('click', () => {
-            if (cartItems.length === 0) {
-                showNotification('🛒 Seu carrinho está vazio! Adicione algum produto.', true);
-            } else {
-                let total = cartItems.reduce((sum, item) => sum + parseFloat(item.price), 0);
-                let productList = cartItems.map(item => `• ${item.name} - R$ ${parseFloat(item.price).toFixed(2)}`).join('\n');
-                alert(`🛒 SEU CARRINHO\n\n${productList}\n\n💰 Total: R$ ${total.toFixed(2)}\n📦 Itens: ${cartCount}\n\nClique nos botões "COMPRAR" para adicionar mais produtos!`);
+            updateCartDisplay();
+            cartModal.style.display = 'flex';
+        });
+
+        document.querySelector('.close-modal').addEventListener('click', () => {
+            cartModal.style.display = 'none';
+        });
+
+        document.getElementById('clearCartBtn').addEventListener('click', clearCart);
+
+        window.addEventListener('click', (e) => {
+            if (e.target === cartModal) {
+                cartModal.style.display = 'none';
             }
         });
 
@@ -693,6 +950,7 @@
         
         console.log('🏐 World Vôlei - Loja de Tênis Esportivos');
         console.log('👟 Todos os produtos possuem link direto para a loja oficial!');
+        console.log('🛒 Clique no carrinho para ver seus itens e remover produtos!');
     </script>
 </body>
 </html>
